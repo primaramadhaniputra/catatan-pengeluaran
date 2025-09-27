@@ -62,10 +62,17 @@ export const deleteTransaction = async (id: number) => {
   await db.runAsync("DELETE FROM transactions WHERE id=?", [id]);
 };
 
-export const getTransactionById = async (id: number) => {
+export const getTransactionById = async (id: number | string) => {
   const result = await db.getFirstAsync(
     "SELECT * FROM transactions WHERE id=?",
     [id]
+  );
+  return result; // kalau ada -> object transaksi, kalau nggak ada -> null
+};
+export const getTransactionByDate = async (date: string) => {
+  const result = await db.getAllAsync(
+    "SELECT * FROM transactions WHERE date=?",
+    [date]
   );
   return result; // kalau ada -> object transaksi, kalau nggak ada -> null
 };

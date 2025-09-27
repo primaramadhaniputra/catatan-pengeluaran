@@ -84,3 +84,14 @@ export const parseCurrency = (value: string) => {
   const numberString = value.replace(/\./g, "").replace(/[^0-9]/g, "");
   return Number(numberString);
 };
+
+export function parseDate(str: string) {
+  if (!str) return null; // handle kalau string kosong
+
+  const [day, month, year] = str.split("-").map(Number);
+
+  // Validasi sederhana
+  if (!day || !month || !year) return null;
+
+  return new Date(year, month - 1, day);
+}

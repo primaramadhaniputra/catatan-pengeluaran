@@ -2,11 +2,11 @@ import {deleteTransaction, getTransactions} from "@/db";
 import {formatCurrency, formatDate, formatUnixToDate} from "@/utils/functions";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, {useEffect, useState} from "react";
-import {Alert, StatusBar, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Text, TouchableOpacity, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import FormCatatPengeluaran from "./FormCatatPengeluaran";
 
-interface Data {
+export interface Data {
   categoryId: string;
   categoryName: string;
   date: string;
@@ -67,10 +67,10 @@ const Home = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: "white", padding: 16}}>
-      <StatusBar
+      {/* <StatusBar
         barStyle="dark-content" // teks & icon status bar jadi hitam
         backgroundColor="white" // background status bar putih
-      />
+      /> */}
 
       <FormCatatPengeluaran />
       <View
