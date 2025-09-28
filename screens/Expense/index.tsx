@@ -158,7 +158,13 @@ const Expense = () => {
 
       <TouchableOpacity
         style={{
-          backgroundColor: isLoading ? "#b1a4a4" : "#d01919",
+          backgroundColor:
+            isLoading ||
+            !formDataExpense.catatan ||
+            !formDataExpense.categoryId ||
+            formDataExpense.nominal === "0"
+              ? "#ccc9c9"
+              : "#d01919",
           height: 40,
           borderRadius: 8,
           alignItems: "center",
@@ -167,7 +173,12 @@ const Expense = () => {
           marginTop: 24,
         }}
         onPress={handleAdd}
-        disabled={isLoading}
+        disabled={
+          isLoading ||
+          !formDataExpense.catatan ||
+          !formDataExpense.categoryId ||
+          formDataExpense.nominal === "0"
+        }
       >
         <Text style={{color: "white", fontWeight: 500}}>
           {isLoading ? "Menyimpan" : "Simpan"}
