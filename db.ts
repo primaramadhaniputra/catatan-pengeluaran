@@ -62,6 +62,11 @@ export const deleteTransaction = async (id: number) => {
   await db.runAsync("DELETE FROM transactions WHERE id=?", [id]);
 };
 
+// Delete banyak transaksi berdasarkan tanggal tertentu
+export const deleteTransactionsByDate = async (date: string) => {
+  await db.runAsync("DELETE FROM transactions WHERE date=?", [date]);
+};
+
 export const getTransactionById = async (id: number | string) => {
   const result = await db.getFirstAsync(
     "SELECT * FROM transactions WHERE id=?",

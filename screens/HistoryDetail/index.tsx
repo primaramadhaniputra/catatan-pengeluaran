@@ -1,8 +1,15 @@
-import {getTransactionByDate} from "@/db";
-import {formatCurrency} from "@/utils/functions";
-import {useLocalSearchParams} from "expo-router";
+import {deleteTransactionsByDate, getTransactionByDate} from "@/db";
+import {formatCurrency, formatUnixToDate, parseDate} from "@/utils/functions";
+import {router, useLocalSearchParams} from "expo-router";
 import React, {useEffect, useState} from "react";
-import {ScrollView, StatusBar, Text, View} from "react-native";
+import {
+  Alert,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Data} from "../Home";
 
@@ -44,6 +51,13 @@ const HistoryDetail = () => {
     setData(data as Data[]);
   };
 
+  const deletTransactions = async (date: string) => {
+    await deleteTransactionsByDate(date);
+    Alert.alert("Success", "Berhasil menghapus pengeluaran", [
+      {text: "OK", onPress: () => router.replace("/history")},
+    ]);
+  };
+
   useEffect(() => {
     getDataDetail();
   }, []);
@@ -70,9 +84,34 @@ const HistoryDetail = () => {
             gap: 8,
           }}
         >
-          <Text style={{fontSize: 18, fontWeight: "600", marginBottom: 12}}>
-            Pengeluaran {date}
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 8,
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={{fontSize: 18, fontWeight: "600"}}>
+              {String(
+                formatUnixToDate(parseDate(date! as string)!.getTime() / 1000)
+              )}
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#d01919",
+                height: 40,
+                borderRadius: 8,
+                alignItems: "center",
+                justifyContent: "center",
+                alignSelf: "flex-end",
+                paddingHorizontal: 12,
+              }}
+              onPress={() => deletTransactions(date as string)}
+            >
+              <Text style={{color: "white", fontWeight: 500}}>Hapus</Text>
+            </TouchableOpacity>
+          </View>
           {dataByCategory.map((item, idx) => (
             <View key={item.categoryId} style={{gap: 8}}>
               <Text

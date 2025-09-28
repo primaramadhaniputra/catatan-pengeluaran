@@ -79,6 +79,22 @@ const Expense = () => {
       <Text>Form Catat Pengeluaran</Text>
 
       <View style={{marginTop: 24, gap: 4}}>
+        <Text>judul</Text>
+        <TextInput
+          style={{
+            borderWidth: 1,
+            borderRadius: 4,
+            borderColor: "#c0c0c0",
+            paddingHorizontal: 8,
+          }}
+          onChangeText={(text) =>
+            setFormDataExpense((prev) => ({...prev, catatan: text}))
+          }
+          value={formDataExpense.catatan}
+        />
+      </View>
+
+      <View style={{marginTop: 12, gap: 4}}>
         <Text>Category</Text>
         <TouchableOpacity
           style={{
@@ -139,21 +155,6 @@ const Expense = () => {
           value={formatCurrency(Number(formDataExpense.nominal))}
         />
       </View>
-      <View style={{marginTop: 12, gap: 4}}>
-        <Text>Catatan ( tidak wajib )</Text>
-        <TextInput
-          style={{
-            borderWidth: 1,
-            borderRadius: 4,
-            borderColor: "#c0c0c0",
-            paddingHorizontal: 8,
-          }}
-          onChangeText={(text) =>
-            setFormDataExpense((prev) => ({...prev, catatan: text}))
-          }
-          value={formDataExpense.catatan}
-        />
-      </View>
 
       <TouchableOpacity
         style={{
@@ -186,7 +187,14 @@ const Expense = () => {
             justifyContent: "flex-end",
           }}
         >
-          <View style={{backgroundColor: "white", padding: 16, gap: 8}}>
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: 16,
+              paddingBottom: 32,
+              gap: 8,
+            }}
+          >
             {category.map((item) => (
               <TouchableOpacity
                 key={item.id}

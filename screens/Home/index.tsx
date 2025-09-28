@@ -121,9 +121,10 @@ const Home = () => {
                     alignItems: "center",
                     justifyContent: "space-between",
                     flex: 1,
+                    gap: 8,
                   }}
                 >
-                  <Text>{row.note}</Text>
+                  <Text style={{flex: 1}}>{row.note}</Text>
                   <Text>Rp {formatCurrency(Number(row.nominal))}</Text>
                 </View>
               </View>
