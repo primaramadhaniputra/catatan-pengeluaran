@@ -60,7 +60,7 @@ const Expense = () => {
     await insertTransaction(
       formDataExpense.categoryId,
       formDataExpense.categoryName,
-      formatDate(new Date(), "-"),
+      formatDate(formDataExpense.date, "-"),
       formDataExpense.nominal,
       formDataExpense.catatan
     );

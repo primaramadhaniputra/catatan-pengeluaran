@@ -81,3 +81,18 @@ export const getTransactionByDate = async (date: string) => {
   );
   return result; // kalau ada -> object transaksi, kalau nggak ada -> null
 };
+
+export const getTransactionsByMonth = async (month: number, year: number) => {
+  const monthStr = month.toString().padStart(2, "0");
+  const yearStr = year.toString();
+
+  const result = await db.getAllAsync(
+    `SELECT * FROM transactions 
+     WHERE substr(date, 4, 2) = ?  -- ambil bulan (posisi 4-5 dari "DD-MM-YYYY")
+       AND substr(date, 7, 4) = ?  -- ambil tahun (posisi 7-10 dari "DD-MM-YYYY")
+     ORDER BY id DESC`,
+    [monthStr, yearStr]
+  );
+
+  return result;
+};

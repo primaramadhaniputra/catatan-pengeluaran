@@ -59,6 +59,30 @@ export function formatUnixToDate(unixTimestamp: number) {
   return `${dayName}, ${day} ${month} ${year}`;
 }
 
+export function formatUnixToMonthAndYear(unixTimestamp: number) {
+  const date = new Date(unixTimestamp * 1000); // kali 1000 karena timestamp dalam detik
+
+  const months = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "July",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${month} ${year}`;
+}
+
 export function getBetweenDays(startDate: number, endDate: number) {
   // konversi ke milidetik
   const start = startDate * 1000;
@@ -85,13 +109,42 @@ export const parseCurrency = (value: string) => {
   return Number(numberString);
 };
 
+// export function parseDate(str: string) {
+//   if (!str) return null; // handle kalau string kosong
+
+//   const [day, month, year] = str.split("-").map(Number);
+
+//   // Validasi sederhana
+//   if (!day || !month || !year) return null;
+
+//   return new Date(year, month - 1, day);
+// }
+
 export function parseDate(str: string) {
-  if (!str) return null; // handle kalau string kosong
+  if (!str) return null; // handle string kosong
 
-  const [day, month, year] = str.split("-").map(Number);
+  const parts = str.split("-").map(Number);
 
-  // Validasi sederhana
-  if (!day || !month || !year) return null;
+  if (parts.length === 3) {
+    // Format: DD-MM-YYYY
+    const [day, month, year] = parts;
+    if (!day || !month || !year) return null;
+    return new Date(year, month - 1, day);
+  }
 
-  return new Date(year, month - 1, day);
+  if (parts.length === 2) {
+    // Format: MM-YYYY
+    const [month, year] = parts;
+    if (!month || !year) return null;
+    return new Date(year, month - 1, 1); // default day = 1
+  }
+
+  if (parts.length === 1) {
+    // Format: YYYY only
+    const [year] = parts;
+    if (!year) return null;
+    return new Date(year, 0, 1); // default January 1st
+  }
+
+  return null;
 }
