@@ -74,41 +74,46 @@ const HistoryDetailByMonth = () => {
 
   return (
     <ScrollView style={{paddingHorizontal: 16}}>
-      {dataByCategory.map((item) => {
-        let total = 0;
-        item.data.forEach((item) => {
-          item.data.forEach((row) => {
-            total += Number(row.nominal);
+      {dataByCategory
+        .sort(
+          (a, b) => parseDate(a.date)!.getTime() - parseDate(b.date)!.getTime()
+        )
+        .map((item) => {
+          let total = 0;
+          item.data.forEach((item) => {
+            item.data.forEach((row) => {
+              total += Number(row.nominal);
+            });
           });
-        });
-        return (
-          <View
-            key={item.date}
-            style={{
-              marginTop: 24,
-              backgroundColor: "white",
-              elevation: 1,
-              borderRadius: 12,
-              padding: 16,
-              gap: 8,
-            }}
-          >
+
+          return (
             <View
+              key={item.date}
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                marginTop: 24,
+                backgroundColor: "white",
+                elevation: 1,
+                borderRadius: 12,
+                padding: 16,
                 gap: 8,
-                justifyContent: "space-between",
               }}
             >
-              <Text style={{fontSize: 18, fontWeight: "600"}}>
-                {String(
-                  formatUnixToDate(
-                    parseDate(item.date! as string)!.getTime() / 1000
-                  )
-                )}
-              </Text>
-              {/* <TouchableOpacity
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 8,
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{fontSize: 18, fontWeight: "600"}}>
+                  {String(
+                    formatUnixToDate(
+                      parseDate(item.date! as string)!.getTime() / 1000
+                    )
+                  )}
+                </Text>
+                {/* <TouchableOpacity
               style={{
                 backgroundColor: "#d01919",
                 height: 40,
@@ -122,66 +127,66 @@ const HistoryDetailByMonth = () => {
             >
               <Text style={{color: "white", fontWeight: 500}}>Hapus</Text>
             </TouchableOpacity> */}
-            </View>
-            {item.data.map((item, idx) => (
-              <View key={item.categoryId} style={{gap: 8}}>
-                <Text
-                  style={{
-                    backgroundColor: categoryColor[idx],
-                    color: "white",
-                    alignSelf: "flex-start",
-                    fontSize: 12,
-                    paddingHorizontal: 8,
-                    borderRadius: 8,
-                  }}
-                >
-                  {item.categoryName}
-                </Text>
-                {item.data.map((row) => (
-                  <View
+              </View>
+              {item.data.map((item, idx) => (
+                <View key={item.categoryId} style={{gap: 8}}>
+                  <Text
                     style={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: "#eee",
-                      paddingBottom: 8,
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 8,
+                      backgroundColor: categoryColor[idx],
+                      color: "white",
+                      alignSelf: "flex-start",
+                      fontSize: 12,
+                      paddingHorizontal: 8,
+                      borderRadius: 8,
                     }}
-                    key={row.id}
                   >
+                    {item.categoryName}
+                  </Text>
+                  {item.data.map((row) => (
                     <View
                       style={{
+                        borderBottomWidth: 1,
+                        borderBottomColor: "#eee",
+                        paddingBottom: 8,
                         flexDirection: "row",
                         alignItems: "center",
-                        justifyContent: "space-between",
-                        flex: 1,
                         gap: 8,
                       }}
+                      key={row.id}
                     >
-                      <Text style={{flex: 1, flexWrap: "wrap"}}>
-                        {row.note}
-                      </Text>
-                      <Text>Rp {formatCurrency(Number(row.nominal))}</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          flex: 1,
+                          gap: 8,
+                        }}
+                      >
+                        <Text style={{flex: 1, flexWrap: "wrap"}}>
+                          {row.note}
+                        </Text>
+                        <Text>Rp {formatCurrency(Number(row.nominal))}</Text>
+                      </View>
                     </View>
-                  </View>
-                ))}
+                  ))}
+                </View>
+              ))}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text>Total</Text>
+                <Text style={{fontSize: 18, fontWeight: "600"}}>
+                  Rp {formatCurrency(total)}
+                </Text>
               </View>
-            ))}
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text>Total</Text>
-              <Text style={{fontSize: 18, fontWeight: "600"}}>
-                Rp {formatCurrency(total)}
-              </Text>
             </View>
-          </View>
-        );
-      })}
+          );
+        })}
     </ScrollView>
   );
 };
