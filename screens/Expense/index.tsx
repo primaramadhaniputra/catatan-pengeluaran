@@ -17,7 +17,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
+import {SafeAreaView, useSafeAreaInsets} from "react-native-safe-area-context";
 
 const category = [
   {
@@ -43,6 +43,8 @@ const Expense = () => {
   const [showModalCreate, setShowModalCreate] = useState(false);
   const [showDate, setShowDate] = useState(false); //
   const [isLoading, setIsLoading] = useState(false);
+
+  const insets = useSafeAreaInsets();
 
   const toggleModalCreate = () => setShowModalCreate((prev) => !prev);
   const toggleShowDate = () => setShowDate((prev) => !prev);
@@ -202,7 +204,8 @@ const Expense = () => {
             style={{
               backgroundColor: "white",
               padding: 16,
-              paddingBottom: 32,
+              // paddingBottom: 52,
+              paddingBottom: insets.bottom + 12,
               gap: 8,
             }}
           >
