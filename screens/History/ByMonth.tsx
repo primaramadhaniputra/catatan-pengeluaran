@@ -51,44 +51,50 @@ const ByMonth = () => {
     handleShow();
   }, []);
 
+  console.log("dataByDate", parseDate("9-2025"));
   return (
     <ScrollView style={{flex: 1, marginVertical: 16}}>
       <View style={{gap: 8}}>
-        {dataByDate.map((item) => {
-          return (
-            <TouchableOpacity
-              style={{
-                elevation: 1,
-                backgroundColor: "white",
-                borderWidth: 1,
-                borderRadius: 8,
-                borderColor: "#eef",
-                padding: 16,
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-              key={item.id}
-              onPress={() => {
-                router.push({
-                  pathname: "/history-detail",
-                  params: {
-                    date: item.date,
-                    type: "month",
-                  },
-                });
-              }}
-            >
-              <Text style={{fontSize: 14}}>
-                {formatUnixToMonthAndYear(
-                  parseDate(item.date)!.getTime() / 1000
-                )}
-              </Text>
-              <Text style={{fontSize: 16, fontWeight: "600"}}>
-                Rp {formatCurrency(item.total)}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+        {dataByDate
+          .sort(
+            (a, b) =>
+              parseDate(b.date)!.getTime() - parseDate(a.date)!.getTime()
+          )
+          .map((item) => {
+            return (
+              <TouchableOpacity
+                style={{
+                  elevation: 1,
+                  backgroundColor: "white",
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  borderColor: "#eef",
+                  padding: 16,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+                key={item.id}
+                onPress={() => {
+                  router.push({
+                    pathname: "/history-detail",
+                    params: {
+                      date: item.date,
+                      type: "month",
+                    },
+                  });
+                }}
+              >
+                <Text style={{fontSize: 14}}>
+                  {formatUnixToMonthAndYear(
+                    parseDate(item.date)!.getTime() / 1000
+                  )}
+                </Text>
+                <Text style={{fontSize: 16, fontWeight: "600"}}>
+                  Rp {formatCurrency(item.total)}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
       </View>
     </ScrollView>
   );

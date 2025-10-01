@@ -76,7 +76,7 @@ const HistoryDetailByMonth = () => {
     <ScrollView style={{paddingHorizontal: 16}}>
       {dataByCategory
         .sort(
-          (a, b) => parseDate(a.date)!.getTime() - parseDate(b.date)!.getTime()
+          (a, b) => parseDate(b.date)!.getTime() - parseDate(a.date)!.getTime()
         )
         .map((item) => {
           let total = 0;
