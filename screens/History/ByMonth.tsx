@@ -51,7 +51,6 @@ const ByMonth = () => {
     handleShow();
   }, []);
 
-  console.log("dataByDate", parseDate("9-2025"));
   return (
     <ScrollView style={{flex: 1, marginVertical: 16}}>
       <View style={{gap: 8}}>

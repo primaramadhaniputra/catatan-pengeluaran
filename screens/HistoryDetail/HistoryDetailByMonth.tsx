@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {Alert, ScrollView, Text, View} from "react-native";
 import {Data} from "../Home";
 
-const categoryColor = ["#907ade", "#de7a7c"];
+const categoryColor = ["#907ade", "#de7a7c", "#7adeb8", "#d4de7a"];
 
 const HistoryDetailByMonth = () => {
   const [data, setData] = useState<Data[]>([]);

@@ -28,6 +28,14 @@ const category = [
     id: "2",
     name: "Lain-lain",
   },
+  {
+    id: "4",
+    name: "Mingguan",
+  },
+  {
+    id: "3",
+    name: "Bulanan",
+  },
 ];
 
 const defaultState = {
