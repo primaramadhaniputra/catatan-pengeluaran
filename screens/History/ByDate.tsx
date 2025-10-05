@@ -7,11 +7,19 @@ import {
 } from "@/utils/functions";
 import {router} from "expo-router";
 import React, {useEffect, useState} from "react";
-import {ScrollView, Text, TouchableOpacity, View} from "react-native";
+import {
+  ActivityIndicator,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {Data} from "../Home";
 
 const ByDate = () => {
   const [data, setData] = useState<Data[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dataByDate: {
     id: number;
@@ -35,19 +43,27 @@ const ByDate = () => {
 
   // const [month, year] = (date! as string).split("-").map(Number);
   const handleShow = async () => {
+    setIsLoading(true);
     const currentDate = formatDate(new Date(), "-");
     const [_, month, year] = (currentDate! as string).split("-").map(Number);
 
     const data = await getTransactionsByMonth(month, year);
 
     setData(data as Data[]);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     handleShow();
   }, []);
   return (
-    <ScrollView style={{flex: 1, marginVertical: 8}}>
+    <ScrollView
+      style={{flex: 1, marginVertical: 8}}
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={handleShow} />
+      }
+    >
+      {isLoading ? <ActivityIndicator /> : null}
       <View style={{gap: 8}}>
         {dataByDate
           .sort(

@@ -46,7 +46,7 @@ const HistoryDetailByDate = () => {
   const deletTransactions = async (date: string) => {
     await deleteTransactionsByDate(date);
     Alert.alert("Success", "Berhasil menghapus pengeluaran", [
-      {text: "OK", onPress: () => router.replace("/history")},
+      {text: "OK", onPress: () => router.back()},
     ]);
   };
 

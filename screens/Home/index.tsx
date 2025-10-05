@@ -2,7 +2,15 @@ import {deleteTransaction, getTransactions} from "@/db";
 import {formatCurrency, formatDate, formatUnixToDate} from "@/utils/functions";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, {useEffect, useState} from "react";
-import {Alert, Text, TouchableOpacity, View} from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import FormCatatPengeluaran from "./FormCatatPengeluaran";
 
@@ -19,6 +27,7 @@ const categoryColor = ["#907ade", "#de7a7c", "#7adeb8", "#d4de7a"];
 
 const Home = () => {
   const [data, setData] = useState<Data[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dataByCategory: {
     categoryId: string;
@@ -48,11 +57,13 @@ const Home = () => {
   }, 0);
 
   const handleShow = async () => {
+    setIsLoading(true);
     const data = (await getTransactions()) as Data[];
     const dataByToday = data.filter(
       (item) => item.date === formatDate(new Date(), "-")
     );
     setData(dataByToday);
+    setIsLoading(false);
   };
 
   const handleDelete = async (id: number) => {
@@ -73,8 +84,8 @@ const Home = () => {
       /> */}
 
       <FormCatatPengeluaran />
-      <View
-        style={{
+      <ScrollView
+        contentContainerStyle={{
           marginTop: 24,
           backgroundColor: "white",
           elevation: 1,
@@ -82,7 +93,11 @@ const Home = () => {
           padding: 16,
           gap: 8,
         }}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={handleShow} />
+        }
       >
+        {isLoading ? <ActivityIndicator /> : null}
         <Text style={{fontSize: 18, fontWeight: "600", marginBottom: 12}}>
           Pengeluaran {formatUnixToDate(new Date().getTime() / 1000)}
         </Text>
@@ -143,7 +158,7 @@ const Home = () => {
             Rp {formatCurrency(total)}
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

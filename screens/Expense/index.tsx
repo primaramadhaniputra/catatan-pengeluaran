@@ -76,7 +76,7 @@ const Expense = () => {
     );
     setIsLoading(false);
     Alert.alert("Success", "Berhasil mencatat pengeluaran", [
-      {text: "OK", onPress: () => router.replace("/(tabs)")},
+      {text: "OK", onPress: () => router.back()},
     ]);
   };
 
