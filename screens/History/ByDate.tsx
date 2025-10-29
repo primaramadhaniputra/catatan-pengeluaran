@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {categoryColor, Data} from "../Home";
+import {Data} from "../Home";
+import ExpenseByCategory from "./ExpenseByCategory";
 
 const ByDate = () => {
   const [data, setData] = useState<Data[]>([]);
@@ -38,29 +39,6 @@ const ByDate = () => {
       });
     } else {
       dataByDate[indexPositin].total += Number(item.nominal);
-    }
-  });
-
-  const totalByCategory: {
-    name: string;
-    id: string;
-    total: number;
-  }[] = [];
-
-  data.forEach((item) => {
-    const findDataIndex = totalByCategory.findIndex(
-      (row) => row.id === item.categoryId
-    );
-    if (findDataIndex < 0) {
-      totalByCategory.push({
-        id: item.categoryId,
-        name: item.categoryName,
-        total: Number(item.nominal),
-      });
-    } else {
-      totalByCategory[findDataIndex].total = totalByCategory[
-        findDataIndex
-      ].total += Number(item.nominal);
     }
   });
 
@@ -102,37 +80,7 @@ const ByDate = () => {
         <Text style={{fontWeight: "500"}}>
           Total Pengeluaran By Categori :{" "}
         </Text>
-        <View style={{marginTop: 8, gap: 8}}>
-          {totalByCategory.map((item, idx) => (
-            <View
-              key={item.id}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderBottomWidth: 1,
-                borderBottomColor: "#eee",
-                paddingBottom: 4,
-              }}
-            >
-              <Text
-                style={{
-                  backgroundColor: categoryColor[idx],
-                  color: "white",
-                  alignSelf: "flex-start",
-                  fontSize: 12,
-                  paddingHorizontal: 8,
-                  borderRadius: 8,
-                }}
-              >
-                {item.name}
-              </Text>
-              <Text style={{fontWeight: "600"}}>
-                : Rp {formatCurrency(item.total)}
-              </Text>
-            </View>
-          ))}
-        </View>
+        <ExpenseByCategory data={data} />
       </View>
       <View style={{gap: 8}}>
         {dataByDate
