@@ -23,7 +23,7 @@ export interface Data {
   note: string;
 }
 
-const categoryColor = ["#907ade", "#de7a7c", "#7adeb8", "#d4de7a"];
+export const categoryColor = ["#907ade", "#de7a7c", "#7adeb8", "#d4de7a"];
 
 const Home = () => {
   const [data, setData] = useState<Data[]>([]);

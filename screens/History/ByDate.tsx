@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {Data} from "../Home";
+import {categoryColor, Data} from "../Home";
 
 const ByDate = () => {
   const [data, setData] = useState<Data[]>([]);
@@ -41,6 +41,29 @@ const ByDate = () => {
     }
   });
 
+  const totalByCategory: {
+    name: string;
+    id: string;
+    total: number;
+  }[] = [];
+
+  data.forEach((item) => {
+    const findDataIndex = totalByCategory.findIndex(
+      (row) => row.id === item.categoryId
+    );
+    if (findDataIndex < 0) {
+      totalByCategory.push({
+        id: item.categoryId,
+        name: item.categoryName,
+        total: Number(item.nominal),
+      });
+    } else {
+      totalByCategory[findDataIndex].total = totalByCategory[
+        findDataIndex
+      ].total += Number(item.nominal);
+    }
+  });
+
   // const [month, year] = (date! as string).split("-").map(Number);
   const handleShow = async () => {
     setIsLoading(true);
@@ -56,6 +79,7 @@ const ByDate = () => {
   useEffect(() => {
     handleShow();
   }, []);
+
   return (
     <ScrollView
       style={{flex: 1, marginVertical: 8}}
@@ -64,6 +88,52 @@ const ByDate = () => {
       }
     >
       {isLoading ? <ActivityIndicator /> : null}
+      <View
+        style={{
+          elevation: 1,
+          backgroundColor: "white",
+          borderWidth: 1,
+          borderRadius: 8,
+          borderColor: "#eef",
+          padding: 16,
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={{fontWeight: "500"}}>
+          Total Pengeluaran By Categori :{" "}
+        </Text>
+        <View style={{marginTop: 8, gap: 8}}>
+          {totalByCategory.map((item, idx) => (
+            <View
+              key={item.id}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                borderBottomWidth: 1,
+                borderBottomColor: "#eee",
+                paddingBottom: 4,
+              }}
+            >
+              <Text
+                style={{
+                  backgroundColor: categoryColor[idx],
+                  color: "white",
+                  alignSelf: "flex-start",
+                  fontSize: 12,
+                  paddingHorizontal: 8,
+                  borderRadius: 8,
+                }}
+              >
+                {item.name}
+              </Text>
+              <Text style={{fontWeight: "600"}}>
+                : Rp {formatCurrency(item.total)}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
       <View style={{gap: 8}}>
         {dataByDate
           .sort(

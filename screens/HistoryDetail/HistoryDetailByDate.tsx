@@ -3,9 +3,7 @@ import {formatCurrency, formatUnixToDate, parseDate} from "@/utils/functions";
 import {router, useLocalSearchParams} from "expo-router";
 import React, {useEffect, useState} from "react";
 import {Alert, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {Data} from "../Home";
-
-const categoryColor = ["#907ade", "#de7a7c", "#7adeb8", "#d4de7a"];
+import {categoryColor, Data} from "../Home";
 
 const HistoryDetailByDate = () => {
   const [data, setData] = useState<Data[]>([]);
