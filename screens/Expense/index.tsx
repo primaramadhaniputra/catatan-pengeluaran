@@ -36,6 +36,18 @@ const category = [
     id: "3",
     name: "Bulanan",
   },
+  {
+    id: "5",
+    name: "Sarapan",
+  },
+  {
+    id: "6",
+    name: "Kebutuhan Anak",
+  },
+  {
+    id: "7",
+    name: "Jajan",
+  },
 ];
 
 const defaultState = {
