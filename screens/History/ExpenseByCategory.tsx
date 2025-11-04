@@ -3,7 +3,7 @@ import React from "react";
 import {Text, View} from "react-native";
 import {categoryColor, Data} from "../Home";
 
-import PieChart from "react-native-pie-chart";
+// import PieChart from "react-native-pie-chart";
 
 const widthAndHeight = 170;
 
@@ -55,7 +55,7 @@ const ExpenseByCategory = ({data}: Props) => {
           alignItems: "center",
         }}
       >
-        <PieChart widthAndHeight={widthAndHeight} series={series} />
+        {/* <PieChart widthAndHeight={widthAndHeight} series={series} /> */}
       </View>
 
       {totalByCategory.map((item, idx) => (
